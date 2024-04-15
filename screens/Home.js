@@ -24,21 +24,32 @@ export default function Home({ navigation }) {
       <View style={styles.container}>
         <View style={styles.containerPerfil}>
           <StatusBar barStyle="dark-content" />
-          <Pressable onPress={() => navigation.navigate("Perfil")}>
-            <Image
-              source={{ uri: "https://via.placeholder.com/150" || photoURL }}
-              style={[styles.image, { borderRadius: 85 }]}
-            />
-          </Pressable>
-
           <View style={styles.topo}>
-            <View style={styles.infos}>
-              <Text style={styles.bemVindo}>Bem-vindo(a)</Text>
-              <Text style={styles.nomeUsuario}>Dsiplay nome </Text>
+            <View style={styles.dadosUsuario}>
+              <View style={styles.infos}>
+                <Text style={styles.bemVindo}>Bem-vindo(a)</Text>
+                <Text style={styles.nomeUsuario}>Nome completo </Text>
+              </View>
+              <Pressable
+                onPress={() => navigation.navigate("Perfil")}
+                title="Perfil"
+              >
+                <Image
+                  source={{
+                    uri: "https://via.placeholder.com/150" || photoURL,
+                  }}
+                  style={[
+                    styles.image,
+                    { borderRadius: 85, backgroundColor: "#c4afdb" },
+                  ]}
+                />
+              </Pressable>
             </View>
-            <Pressable onPress={() => navigation.navigate("Perfil")}>
-              <Text style={styles.alterarPerfil}>Alterar Perfil</Text>
-            </Pressable>
+            <Button
+              onPress={() => navigation.navigate("Perfil")}
+              title="Ver Perfil"
+              color="#D35400"
+            />
           </View>
         </View>
 
@@ -95,8 +106,13 @@ const styles = StyleSheet.create({
     borderStyle: "dashed",
     borderRadius: 5,
   },
-  infos: {
-    marginLeft: 5,
+  dadosUsuario: {
+    flexDirection: "row",
+    backgroundColor: "#c4afdb",
+    gap: 80,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 8,
   },
   bemVindo: {
     fontSize: 24,
@@ -110,11 +126,6 @@ const styles = StyleSheet.create({
   image: {
     width: 64,
     height: 64,
-    marginTop: 40,
-
-    position: "absolute",
-    right: 20,
-    top: 20,
 
     borderWidth: 1,
     borderRadius: 50,
