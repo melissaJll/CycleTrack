@@ -7,14 +7,14 @@ import {
   View,
   Text,
   ActivityIndicator,
-  ScrollView,
   ImageBackground,
+  ScrollView,
 } from "react-native";
-import { useState } from "react";
 import { auth } from "../firebaseConfig";
+
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Fundo from "../assets/fundo.jpg";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
@@ -29,7 +29,7 @@ export default function Login({ navigation }) {
     try {
       setLoading(true);
       await signInWithEmailAndPassword(auth, email, senha);
-      navigation.replace("AreaLogada");
+      navigation.replace("Home");
     } catch (error) {
       console.error(error.code);
       let mensagem;
@@ -49,65 +49,62 @@ export default function Login({ navigation }) {
       setLoading(false); // Desativa o spinner
     }
   };
-
   return (
     <>
-      <ImageBackground source={Fundo} style={{ height: "100%" }}>
-        <ScrollView>
-          <View style={estilos.container}>
-            <View style={estilos.formulario}>
-              <Text style={estilos.logo}>CycleTrack</Text>
+      <ScrollView>
+        <View style={estilos.container}>
+          <View style={estilos.formulario}>
+            <Text style={estilos.logo}>CycleTrack</Text>
 
-              <ActivityIndicator
-                animating={loading}
-                size="large"
-                color="#3D2498"
-              />
+            <ActivityIndicator
+              animating={loading}
+              size="large"
+              color="#3D2498"
+            />
 
-              <TextInput
-                keyboardType="email-address"
-                onChangeText={(valor) => setEmail(valor)}
-                placeholder="E-mail"
-                style={estilos.input}
-              />
-              <TextInput
-                onChangeText={(valor) => setSenha(valor)}
-                placeholder="Senha"
-                style={estilos.input}
-                secureTextEntry
-              />
+            <TextInput
+              keyboardType="email-address"
+              onChangeText={(valor) => setEmail(valor)}
+              placeholder="E-mail"
+              style={estilos.input}
+            />
+            <TextInput
+              onChangeText={(valor) => setSenha(valor)}
+              placeholder="Senha"
+              style={estilos.input}
+              secureTextEntry
+            />
 
-              <Pressable onPress={login} style={estilos.botaoEntre}>
-                <Text style={estilos.textoBotaoEntre}>Entrar</Text>
-              </Pressable>
+            <Pressable onPress={login} style={estilos.botaoEntre}>
+              <Text style={estilos.textoBotaoEntre}>Entrar</Text>
+            </Pressable>
 
-              <Pressable
-                style={estilos.botaoEsqueciSenha}
-                onPress={() => navigation.navigate("RecuperarSenha")}
-              >
-                <View style={estilos.esqueciSenha}>
-                  <Pressable
-                    style={estilos.botaoEsqueciSenha}
-                    onPress={() => navigation.navigate("Cadastro")}
-                  >
-                    <Text style={estilos.textoBotaoEsqueciSenha}>
-                      Criar Conta
-                    </Text>
-                  </Pressable>
-                  <Pressable
-                    style={estilos.botaoEsqueciSenha}
-                    onPress={() => navigation.navigate("RecuperarSenha")}
-                  >
-                    <Text style={estilos.textoBotaoEsqueciSenha}>
-                      Recuperar Senha
-                    </Text>
-                  </Pressable>
-                </View>
-              </Pressable>
-            </View>
+            <Pressable
+              style={estilos.botaoEsqueciSenha}
+              onPress={() => navigation.navigate("RecuperarSenha")}
+            >
+              <View style={estilos.esqueciSenha}>
+                <Pressable
+                  style={estilos.botaoEsqueciSenha}
+                  onPress={() => navigation.navigate("Cadastro")}
+                >
+                  <Text style={estilos.textoBotaoEsqueciSenha}>
+                    Criar Conta
+                  </Text>
+                </Pressable>
+                <Pressable
+                  style={estilos.botaoEsqueciSenha}
+                  onPress={() => navigation.navigate("RecuperarSenha")}
+                >
+                  <Text style={estilos.textoBotaoEsqueciSenha}>
+                    Recuperar Senha
+                  </Text>
+                </Pressable>
+              </View>
+            </Pressable>
           </View>
-        </ScrollView>
-      </ImageBackground>
+        </View>
+      </ScrollView>
     </>
   );
 }
