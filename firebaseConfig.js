@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
 // Importando recursos da bibliotrca de Autenticação
 import { initializeAuth, getReactNativePersistence } from "firebase/auth";
@@ -18,6 +19,4 @@ const app = initializeApp(firebaseConfig);
 // Configurando o recurso de autenticação para uso em outras partes
 // .gitignore
 
-export const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
-});
+export const auth = getAuth();
