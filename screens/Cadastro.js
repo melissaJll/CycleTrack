@@ -32,18 +32,6 @@ export default function Cadastro({ navigation }) {
 
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
 
-  useEffect(() => {
-    async function verificaPermissoes() {
-      // CameraStatus guardando a requisição da permissão de camera
-      const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
-
-      // Requisição da permissão recebendo o cameraStatus com o parametro de ter permitido
-      requestPermission(cameraStatus === "granted");
-    }
-
-    verificaPermissoes();
-  }, []);
-
   // Função para fazer upload da imagem para o Firebase Storage e depois enviar pela função Cadastrar
   const carregarStorage = async () => {
     try {
@@ -108,7 +96,7 @@ export default function Cadastro({ navigation }) {
         {
           style: "default",
           text: "Ir para a área logada ",
-          onPress: () => navigation.replace("AreaLogada"),
+          onPress: () => navigation.navigate("Home"),
         },
       ]);
     } catch (error) {
