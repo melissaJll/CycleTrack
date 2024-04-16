@@ -10,26 +10,25 @@ import {
   ImageBackground,
   ScrollView,
 } from "react-native";
-import { auth } from "../firebaseConfig";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { auth } from "../firebaseConfig";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const login = async () => {
+  const entrar = async () => {
     if (!email || !senha) {
       Alert.alert("Atenção", "Preecha email e senha");
       return;
     }
     try {
-      setLoading(true);
       await signInWithEmailAndPassword(auth, email, senha);
-      navigation.replace("Home");
+      navigation.replace("AreaLogada");
     } catch (error) {
       console.error(error.code);
       let mensagem;
@@ -45,8 +44,6 @@ export default function Login({ navigation }) {
           break;
       }
       Alert.alert("Ops!", mensagem);
-    } finally {
-      setLoading(false); // Desativa o spinner
     }
   };
   return (
@@ -75,7 +72,7 @@ export default function Login({ navigation }) {
               secureTextEntry
             />
 
-            <Pressable onPress={login} style={estilos.botaoEntre}>
+            <Pressable onPress={entrar} style={estilos.botaoEntre}>
               <Text style={estilos.textoBotaoEntre}>Entrar</Text>
             </Pressable>
 
