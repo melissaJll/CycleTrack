@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import {
   Alert,
-  Button,
   StyleSheet,
   TextInput,
   View,
@@ -11,6 +10,7 @@ import {
   StatusBar,
   ScrollView,
   ImageBackground,
+  ActivityIndicator,
 } from "react-native";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebaseConfig";
@@ -24,6 +24,7 @@ export default function Cadastro({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [nome, setNome] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [imagem, setImagem] = useState(null);
   const [downloadURL, setDownloadURL] = useState(null);
@@ -31,21 +32,10 @@ export default function Cadastro({ navigation }) {
 
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
 
-  // useEffect(() => {
-  //   async function verificaPermissoes() {
-  // CameraStatus guardando a requisição da permissão de camera
-  // const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
-
-  // Requisição da permissão recebendo o cameraStatus com o parametro de ter permitido
-  //     requestPermission(cameraStatus === "granted");
-  //   }
-
-  //   verificaPermissoes();
-  // }, []);
-
   // Função para fazer upload da imagem para o Firebase Storage e depois enviar pela função Cadastrar
   const carregarStorage = async () => {
     try {
+      setLoading(true);
       if (imagem) {
         const { uri } = await FileSystem.getInfoAsync(imagem); // Obtém o URI da imagem
         const response = await fetch(uri); // Realiza uma requisição para obter a imagem
@@ -69,6 +59,7 @@ export default function Cadastro({ navigation }) {
     } catch (error) {
       console.error(error);
       Alert.alert("Falha ao fazer upload da imagem", error.message);
+      setLoading(false);
     }
   };
 
@@ -185,8 +176,17 @@ export default function Cadastro({ navigation }) {
             />
 
             <Pressable style={estilos.botaoCadastro} onPress={carregarStorage}>
-              <Text style={estilos.textoBotaoCadastro}>Cadastrar</Text>
-
+              {!loading ? (
+                <>
+                  <Text style={estilos.textoBotaoCadastro}>Cadastrar</Text>
+                </>
+              ) : (
+                <ActivityIndicator
+                  animating={loading}
+                  size="large"
+                  color="#ffffff"
+                />
+              )}
               <MaterialIcons name="directions-bike" size={20} color="white" />
             </Pressable>
           </View>
